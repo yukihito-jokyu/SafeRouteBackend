@@ -32,6 +32,12 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// SLF4J API
+	implementation 'org.slf4j:slf4j-api:2.0.13'
+
+	// SLF4JとLogbackのバインディング
+	implementation 'ch.qos.logback:logback-classic'
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
