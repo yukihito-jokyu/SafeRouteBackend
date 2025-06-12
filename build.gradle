@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+//		languageVersion = JavaLanguageVersion.of(17)
 	}
 }
 
@@ -18,8 +18,20 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	// --- Spring Boot ---
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// --- MyBatis ---
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+
+	// --- データベース ---
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// Lombok: アノテーションでGetter/Setter等を自動生成
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
