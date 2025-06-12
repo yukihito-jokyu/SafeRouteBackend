@@ -36,7 +36,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Integer findPointsByUserId(com.osc.saferoute.domain.model.UserId userId) {
+    public Integer findPointsByUserId(UserId userId) {
         // Assuming userMapper is the instance of UserMapper injected into this class
         return userMapper.findPointsById(userId.value());
     }
