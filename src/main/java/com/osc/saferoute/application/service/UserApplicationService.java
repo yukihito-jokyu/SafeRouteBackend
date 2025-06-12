@@ -22,4 +22,9 @@ public class UserApplicationService {
         User user = userRepository.findById(id);
         return user.name().value();
     }
+
+    public Integer getCurrentPoints(com.osc.saferoute.domain.model.UserId userId) {
+        // Assuming userRepository is the instance of UserRepository injected into this class
+        return userRepository.findPointsByUserId(userId);
+    }
 }

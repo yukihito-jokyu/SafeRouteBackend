@@ -34,4 +34,10 @@ public class UserRepositoryImpl implements UserRepository {
         entity.setName(user.name().value());
         userMapper.update(entity);
     }
+
+    @Override
+    public Integer findPointsByUserId(com.osc.saferoute.domain.model.UserId userId) {
+        // Assuming userMapper is the instance of UserMapper injected into this class
+        return userMapper.findPointsById(userId.value());
+    }
 }

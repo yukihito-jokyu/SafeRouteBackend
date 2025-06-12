@@ -8,4 +8,5 @@ import org.apache.ibatis.annotations.Param;
 public interface UserMapper {
     UserEntity findById(@Param("user_id") String user_id);
     void update(UserEntity user);
+    Integer findPointsById(@Param("user_id") String user_id);
 }

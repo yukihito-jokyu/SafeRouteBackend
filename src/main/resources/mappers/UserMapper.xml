@@ -22,4 +22,10 @@
         WHERE id = #{id}
     </update>
 
+    <select id="findPointsById" resultType="java.lang.Integer">
+        SELECT current_points
+        FROM users
+        WHERE user_id = #{user_id}
+    </select>
+
 </mapper>
