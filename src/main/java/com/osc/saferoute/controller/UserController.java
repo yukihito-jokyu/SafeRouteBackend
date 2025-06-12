@@ -23,4 +23,9 @@ public class UserController {
     public String getUserName(@PathVariable String id) {
         return userApplicationService.getUserName(new UserId(id));
     }
+
+    @GetMapping("/get/point/{id}")
+    public Integer getUserPoints(@PathVariable String id) {
+        return userApplicationService.getCurrentPoints(new com.osc.saferoute.domain.model.UserId(id));
+    }
 }
