@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper {
-    UserEntity findById(@Param("id") String id);
+    UserEntity findById(@Param("user_id") String user_id);
     void update(UserEntity user);
 }

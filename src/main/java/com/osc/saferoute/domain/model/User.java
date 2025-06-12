@@ -1,26 +1,26 @@
 package com.osc.saferoute.domain.model;
 
 public class User {
-    private UserId id;
-    private UserName name;
+    private UserId user_id;
+    private UserName nickname;
 
-    public User(UserId id, UserName name) {
-        this.id = id;
-        this.name = name;
+    public User(UserId user_id, UserName nickname) {
+        this.user_id = user_id;
+        this.nickname = nickname;
     }
 
     public void changeName(UserName newName) {
         if (newName == null || newName.value().isBlank()) {
             throw new IllegalArgumentException("名前は空にできません。");
         }
-        this.name = newName;
+        this.nickname = newName;
     }
 
     public UserId id() {
-        return id;
+        return user_id;
     }
 
     public UserName name() {
-        return name;
+        return nickname;
     }
 }

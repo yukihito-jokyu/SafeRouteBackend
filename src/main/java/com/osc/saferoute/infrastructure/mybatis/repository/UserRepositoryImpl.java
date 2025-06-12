@@ -6,9 +6,15 @@ import com.osc.saferoute.infrastructure.mybatis.entity.UserEntity;
 import com.osc.saferoute.infrastructure.mybatis.mapper.UserMapper;
 import org.springframework.stereotype.Repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 @Repository
 public class UserRepositoryImpl implements UserRepository {
     private final UserMapper userMapper;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
     public UserRepositoryImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
@@ -17,6 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User findById(UserId id) {
         UserEntity entity = userMapper.findById(id.value());
+        logger.info("ユーザー名: {}", entity.getName());
         return new User(new UserId(entity.getId()), new UserName(entity.getName()));
     }
 
