@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osc.saferoute.infrastructure.mybatis.mapper.UpcomingDrillMapper">
+
+    <resultMap id="UpcomingDrillEntityResultMap" type="com.osc.saferoute.infrastructure.mybatis.entity.UpcomingDrillEntity">
+        <result property="route_id" column="route_id"/>
+        <result property="route_name" column="route_name"/>
+        <result property="my_route_flag" column="my_route_flag"/>
+    </resultMap>
+
+    <select id="findUpcomingDrills" resultMap="UpcomingDrillEntityResultMap">
+        SELECT
+            udt.route_id,
+            udt.route_name,
+            udt.my_route_flag
+        FROM
+            evacuation_drills ed
+        JOIN
+            user_drill_attendance udt ON ed.drill_id = udt.drill_id
+        WHERE
+            ed.status = 'scheduled' AND ed.start_datetime > NOW()
+        ORDER BY
+            ed.start_datetime ASC, udt.route_name ASC;
+    </select>
+
+</mapper>
