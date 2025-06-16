@@ -10,8 +10,10 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import com.osc.saferoute.controller.dto.PastEvacuationDrillDto;
+import java.util.ArrayList;
 import java.util.stream.Collectors;
-import java.util.ArrayList; // Added for explicitness, though Collectors.toList might be used
 
 @Repository // Or @Component
 public class EvacuationDrillRepositoryImpl implements EvacuationDrillRepository {
@@ -53,7 +55,7 @@ public class EvacuationDrillRepositoryImpl implements EvacuationDrillRepository 
     }
 
     @Override
-    public List<UpcomingEvacuationDrillDto> findUpcomingDrillsWithUserStatus(Long userId) {
+    public List<UpcomingEvacuationDrillDto> findUpcomingDrillsWithUserStatus(String userId) {
         List<EvacuationDrillEntity> entities = evacuationDrillMapper.findUpcomingDrills(LocalDateTime.now(), userId);
         if (entities == null) {
             return new ArrayList<>(); // Or Collections.emptyList()
@@ -73,5 +75,24 @@ public class EvacuationDrillRepositoryImpl implements EvacuationDrillRepository 
                 entity.getUserRegistrationStatus() // Assumed camelCase getter as per previous steps
             ))
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PastEvacuationDrillDto> findPastDrillsWithUserStatus(String userId) {
+        List<EvacuationDrillEntity> entities = evacuationDrillMapper.findPastDrills(LocalDateTime.now(), userId);
+        if (entities == null) {
+            return new ArrayList<>();
+        }
+        return entities.stream()
+                .map(entity -> new PastEvacuationDrillDto(
+                        entity.getDrill_id(),
+                        entity.getDrill_name(),
+                        entity.getStart_datetime(),
+                        entity.getMeeting_place(),
+                        entity.getDrill_details(),
+                        entity.getTarget_audience(),
+                        entity.getUserRegistrationStatus()
+                ))
+                .collect(Collectors.toList());
     }
 }
