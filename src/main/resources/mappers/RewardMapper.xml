@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.osc.saferoute.infrastructure.mybatis.mapper.RewardMapper">
+
+    <select id="selectAllRewards" resultType="com.osc.saferoute.domain.model.Reward">
+        SELECT reward_id, reward_name, reward_description, required_points, category FROM rewards
+    </select>
+
+</mapper>
