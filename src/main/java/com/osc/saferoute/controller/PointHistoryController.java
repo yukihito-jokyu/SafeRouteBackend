@@ -22,7 +22,7 @@ public class PointHistoryController {
         this.pointHistoryApplicationService = pointHistoryApplicationService;
     }
 
-    @GetMapping("/{userId}/points/history")
+    @GetMapping("/points/history/{userId}")
     public ResponseEntity<List<PointHistoryDto>> getPointHistory(@PathVariable Long userId) {
         // Basic validation for userId can be done here or in the service
         // For example, ensuring userId is positive, etc.
