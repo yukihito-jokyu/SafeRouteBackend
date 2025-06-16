@@ -1,7 +1,8 @@
 package com.osc.saferoute.application.service;
 
 import com.osc.saferoute.controller.dto.RouteRankingResponse;
-import com.osc.saferoute.domain.repository.EvacuationRouteRepository; // This repository will be used later
+import com.osc.saferoute.domain.model.RouteRankingData; // Added import
+import com.osc.saferoute.domain.repository.EvacuationRouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +21,22 @@ public class RouteRankingServiceImpl implements RouteRankingService {
 
     @Override
     public List<RouteRankingResponse> getRouteRankings(String criteria) {
-        // Placeholder implementation:
-        // This will be replaced with actual logic to fetch and rank routes
-        // based on criteria using evacuationRouteRepository.
-        return new ArrayList<>();
+        List<RouteRankingData> rankingDataList = evacuationRouteRepository.findRouteRankingDataByCriteria(criteria);
+        List<RouteRankingResponse> responseList = new ArrayList<>();
+
+        for (int i = 0; i < rankingDataList.size(); i++) {
+            RouteRankingData data = rankingDataList.get(i);
+            RouteRankingResponse responseDto = new RouteRankingResponse();
+
+            responseDto.setRouteId(data.routeId());
+            responseDto.setUserNickname(data.userNickname());
+            responseDto.setDistance(data.distance());
+            responseDto.setEstimatedTime(data.estimatedTime());
+            responseDto.setSelfAssessedSafety(data.selfAssessedSafety());
+            responseDto.setRank(i + 1); // Rank is 1-based
+
+            responseList.add(responseDto);
+        }
+        return responseList;
     }
 }
