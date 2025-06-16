@@ -1,8 +1,8 @@
-package com.osc.saferoute.domain.model;
+package com.osc.saferoute.controller.dto;
 
 import java.time.LocalDateTime;
 
-public class EvacuationDrill {
+public class UpcomingEvacuationDrillDto {
     private final Long drillId;
     private final String drillName;
     private final LocalDateTime startDatetime;
@@ -13,10 +13,12 @@ public class EvacuationDrill {
     private final String mapInfoUrl;
     private final String itemsToBring;
     private final String notes;
+    private final String userRegistrationStatus;
 
-    public EvacuationDrill(Long drillId, String drillName, LocalDateTime startDatetime, String drillType,
-                           String meetingPlace, String drillDetails, String targetAudience,
-                           String mapInfoUrl, String itemsToBring, String notes) {
+    public UpcomingEvacuationDrillDto(Long drillId, String drillName, LocalDateTime startDatetime, String drillType,
+                                      String meetingPlace, String drillDetails, String targetAudience,
+                                      String mapInfoUrl, String itemsToBring, String notes,
+                                      String userRegistrationStatus) {
         this.drillId = drillId;
         this.drillName = drillName;
         this.startDatetime = startDatetime;
@@ -27,9 +29,9 @@ public class EvacuationDrill {
         this.mapInfoUrl = mapInfoUrl;
         this.itemsToBring = itemsToBring;
         this.notes = notes;
+        this.userRegistrationStatus = userRegistrationStatus;
     }
 
-    // Getters
     public Long getDrillId() {
         return drillId;
     }
@@ -70,5 +72,7 @@ public class EvacuationDrill {
         return notes;
     }
 
-    // Consider adding equals, hashCode, and toString if appropriate
+    public String getUserRegistrationStatus() {
+        return userRegistrationStatus;
+    }
 }

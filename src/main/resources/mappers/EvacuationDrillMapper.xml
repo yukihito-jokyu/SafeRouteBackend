@@ -10,6 +10,13 @@
         <result property="drill_name" column="drill_name"/>
         <result property="start_datetime" column="start_datetime"/>
         <result property="drill_type" column="drill_type"/>
+        <result property="meeting_place" column="meeting_place"/>
+        <result property="drill_details" column="drill_details"/>
+        <result property="target_audience" column="target_audience"/>
+        <result property="map_info_url" column="map_info_url"/>
+        <result property="items_to_bring" column="items_to_bring"/>
+        <result property="notes" column="notes"/>
+        <result property="userRegistrationStatus" column="user_registration_status"/>
     </resultMap>
 
     <select id="findLatestScheduledDrill" resultMap="EvacuationDrillEntityResultMap">
@@ -18,6 +25,29 @@
         WHERE status = 'scheduled'
         ORDER BY start_datetime DESC, drill_id DESC
         LIMIT 1
+    </select>
+
+    <select id="findUpcomingDrills" resultMap="EvacuationDrillEntityResultMap">
+        SELECT
+            ed.drill_id,
+            ed.drill_name,
+            ed.start_datetime,
+            ed.drill_type,
+            ed.meeting_place,
+            ed.drill_details,
+            ed.target_audience,
+            ed.map_info_url,
+            ed.items_to_bring,
+            ed.notes,
+            uda.status AS user_registration_status
+        FROM
+            evacuation_drills ed
+        LEFT JOIN
+            user_drill_attendance uda ON ed.drill_id = uda.drill_id AND uda.user_id = #{userId}
+        WHERE
+            ed.start_datetime > #{currentTimestamp}
+        ORDER BY
+            ed.start_datetime ASC, ed.drill_id ASC
     </select>
 
 </mapper>
