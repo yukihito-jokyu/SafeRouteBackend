@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.osc.saferoute.infrastructure.mybatis.mapper.PointHistoryMapper">
+
+    <resultMap id="PointHistoryEntityResultMap" type="com.osc.saferoute.infrastructure.mybatis.entity.PointHistoryEntity">
+        <id property="historyId" column="history_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="pointsChange" column="points_change"/>
+        <result property="reasonDetails" column="reason_details"/>
+        <result property="transactionDatetime" column="transaction_datetime"/>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="PointHistoryEntityResultMap">
+        SELECT
+            history_id,
+            user_id,
+            points_change,
+            reason_details,
+            transaction_datetime
+        FROM
+            point_history
+        WHERE
+            user_id = #{userId}
+        ORDER BY
+            transaction_datetime DESC;
+    </select>
+</mapper>
