@@ -34,7 +34,7 @@ public class UserController {
     }
 
     // New endpoint to get primary evacuation routes for a user
-    @GetMapping("/{userId}/get/evacuation-routes")
+    @GetMapping("/get/evacuation-routes/{userId}")
     public ResponseEntity<List<EvacuationRoute>> getPrimaryEvacuationRoutes(@PathVariable String userId) {
         List<EvacuationRoute> routes = userApplicationService.getPrimaryEvacuationRoutes(userId);
         if (routes.isEmpty()) {

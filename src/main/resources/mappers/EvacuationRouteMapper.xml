@@ -14,7 +14,7 @@
             route_name,
             my_route_flag
         FROM
-            EvacuationRoutes
+            evacuation_routes
         WHERE
             user_id = #{userId} AND my_route_flag = TRUE
     </select>
