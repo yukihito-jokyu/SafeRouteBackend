@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.osc.saferoute.infrastructure.mybatis.mapper.RouteRankingMapper">
+
+    <resultMap id="RouteRankingResultMap" type="com.osc.saferoute.domain.model.RouteRanking">
+        <id property="routeId" column="route_id"/>
+        <result property="routeName" column="route_name"/>
+        <result property="distance" column="distance"/>
+        <result property="estimatedTime" column="estimated_time"/>
+        <result property="selfAssessedSafety" column="self_assessed_safety"/>
+        <result property="userNickname" column="nickname"/>
+    </resultMap>
+
+    <select id="findFastestRoutes" resultMap="RouteRankingResultMap">
+        SELECT
+            er.route_id,
+            er.route_name,
+            er.distance,
+            er.estimated_time,
+            er.self_assessed_safety,
+            u.nickname
+        FROM
+            evacuation_routes er
+        JOIN
+            users u ON er.user_id = u.user_id
+        ORDER BY
+            er.estimated_time ASC
+    </select>
+
+    <select id="findShortestRoutes" resultMap="RouteRankingResultMap">
+        SELECT
+            er.route_id,
+            er.route_name,
+            er.distance,
+            er.estimated_time,
+            er.self_assessed_safety,
+            u.nickname
+        FROM
+            evacuation_routes er
+        JOIN
+            users u ON er.user_id = u.user_id
+        ORDER BY
+            er.distance ASC
+    </select>
+
+    <select id="findSafestRoutes" resultMap="RouteRankingResultMap">
+        SELECT
+            er.route_id,
+            er.route_name,
+            er.distance,
+            er.estimated_time,
+            er.self_assessed_safety,
+            u.nickname
+        FROM
+            evacuation_routes er
+        JOIN
+            users u ON er.user_id = u.user_id
+        ORDER BY
+            er.self_assessed_safety DESC
+    </select>
+
+</mapper>
