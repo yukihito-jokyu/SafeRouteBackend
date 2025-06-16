@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.osc.saferoute.infrastructure.mybatis.mapper.RewardMapper">
+
+    <resultMap id="RewardEntityResultMap" type="com.osc.saferoute.infrastructure.mybatis.entity.RewardEntity">
+        <id property="rewardId" column="reward_id" />
+        <result property="rewardName" column="reward_name" />
+        <result property="rewardDescription" column="reward_description" />
+        <result property="requiredPoints" column="required_points" />
+        <result property="category" column="category" />
+    </resultMap>
+
+    <select id="selectAllRewards" resultMap="RewardEntityResultMap">
+        SELECT reward_id, reward_name, reward_description, required_points, category FROM rewards;
+    </select>
+
+</mapper>

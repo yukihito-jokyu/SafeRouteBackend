@@ -25,7 +25,7 @@ public class EvacuationDrillController {
 
     private final EvacuationDrillApplicationService evacuationDrillApplicationService;
 
-    private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(EvacuationDrillController.class);
 
     public EvacuationDrillController(EvacuationDrillApplicationService evacuationDrillApplicationService) {
         this.evacuationDrillApplicationService = evacuationDrillApplicationService;
