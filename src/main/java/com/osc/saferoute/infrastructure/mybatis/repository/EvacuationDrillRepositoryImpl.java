@@ -10,8 +10,21 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+package com.osc.saferoute.infrastructure.mybatis.repository;
+
+import com.osc.saferoute.controller.dto.PastEvacuationDrillDto;
+import com.osc.saferoute.domain.model.EvacuationDrill;
+import com.osc.saferoute.domain.repository.EvacuationDrillRepository;
+import com.osc.saferoute.infrastructure.mybatis.entity.EvacuationDrillEntity;
+import com.osc.saferoute.infrastructure.mybatis.mapper.EvacuationDrillMapper;
+import com.osc.saferoute.controller.dto.UpcomingEvacuationDrillDto;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.ArrayList; // Added for explicitness, though Collectors.toList might be used
 
 @Repository // Or @Component
 public class EvacuationDrillRepositoryImpl implements EvacuationDrillRepository {
@@ -73,5 +86,24 @@ public class EvacuationDrillRepositoryImpl implements EvacuationDrillRepository 
                 entity.getUserRegistrationStatus() // Assumed camelCase getter as per previous steps
             ))
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PastEvacuationDrillDto> findPastDrillsWithUserStatus(Long userId) {
+        List<EvacuationDrillEntity> entities = evacuationDrillMapper.findPastDrills(LocalDateTime.now(), userId);
+        if (entities == null) {
+            return new ArrayList<>();
+        }
+        return entities.stream()
+                .map(entity -> new PastEvacuationDrillDto(
+                        entity.getDrill_id(),
+                        entity.getDrill_name(),
+                        entity.getStart_datetime(),
+                        entity.getMeeting_place(),
+                        entity.getDrill_details(),
+                        entity.getTarget_audience(),
+                        entity.getUserRegistrationStatus()
+                ))
+                .collect(Collectors.toList());
     }
 }

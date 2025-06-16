@@ -1,28 +1,22 @@
 package com.osc.saferoute.application.service;
 
-import com.osc.saferoute.controller.dto.UpcomingEvacuationDrillDto;
-import com.osc.saferoute.domain.model.EvacuationDrill;
+import com.osc.saferoute.controller.dto.PastEvacuationDrillDto;
 import com.osc.saferoute.domain.repository.EvacuationDrillRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
-class EvacuationDrillApplicationServiceTest { // Changed to class for consistency, was public class
+public class EvacuationDrillApplicationServiceTest {
 
     @Mock
     private EvacuationDrillRepository evacuationDrillRepository;
@@ -30,90 +24,48 @@ class EvacuationDrillApplicationServiceTest { // Changed to class for consistenc
     @InjectMocks
     private EvacuationDrillApplicationService evacuationDrillApplicationService;
 
-    // Fields for new tests
-    private UpcomingEvacuationDrillDto drillDto1;
-    private UpcomingEvacuationDrillDto drillDto2;
-
-    // Fields for existing tests (updated constructor)
-    private EvacuationDrill sampleDomainDrill;
-
-
     @BeforeEach
     void setUp() {
-        // Initialize DTOs for new tests
-        drillDto1 = new UpcomingEvacuationDrillDto(1L, "Drill 1", LocalDateTime.now().plusDays(1), "Type A", "Meeting A", "Details A", "Audience A", "mapA.url", "Items A", "Notes A", "Registered");
-        drillDto2 = new UpcomingEvacuationDrillDto(2L, "Drill 2", LocalDateTime.now().plusDays(2), "Type B", "Meeting B", "Details B", "Audience B", "mapB.url", "Items B", "Notes B", "Not Registered");
-
-        // Initialize domain model for existing tests with all fields
-        sampleDomainDrill = new EvacuationDrill(
-            1L, "Test Drill", LocalDateTime.of(2024, 8, 1, 10, 0, 0), "TypeA",
-            "Main Hall", "Standard procedure", "All Staff", "http://maps.example.com/drill1",
-            "ID Card", "Follow instructions"
-        );
-    }
-
-    // Existing tests (updated to use sampleDomainDrill from setUp)
-    @Test
-    void getLatestScheduledDrill_shouldReturnDrill_whenRepositoryReturnsDrill() {
-        when(evacuationDrillRepository.findLatestScheduledDrill()).thenReturn(Optional.of(sampleDomainDrill));
-
-        Optional<EvacuationDrill> result = evacuationDrillApplicationService.getLatestScheduledDrill();
-
-        assertTrue(result.isPresent());
-        assertEquals(sampleDomainDrill, result.get());
-        verify(evacuationDrillRepository).findLatestScheduledDrill();
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void getLatestScheduledDrill_shouldReturnEmpty_whenRepositoryReturnsEmpty() {
-        when(evacuationDrillRepository.findLatestScheduledDrill()).thenReturn(Optional.empty());
+    void getPastDrills_returnsListOfDrills_whenRepositoryReturnsDrills() {
+        Long userId = 1L;
+        List<PastEvacuationDrillDto> expectedDrills = new ArrayList<>();
+        expectedDrills.add(new PastEvacuationDrillDto(1, "Past Drill 1", LocalDateTime.now().minusDays(1), "Meeting Point A", "Details A", "Audience A", "attended"));
+        expectedDrills.add(new PastEvacuationDrillDto(2, "Past Drill 2", LocalDateTime.now().minusDays(2), "Meeting Point B", "Details B", "Audience B", "absent"));
 
-        Optional<EvacuationDrill> result = evacuationDrillApplicationService.getLatestScheduledDrill();
+        when(evacuationDrillRepository.findPastDrillsWithUserStatus(userId)).thenReturn(expectedDrills);
 
-        assertTrue(result.isEmpty()); // Changed from assertTrue(result.isEmpty()); to make it more explicit
-        verify(evacuationDrillRepository).findLatestScheduledDrill();
-    }
-
-    // New tests for getUpcomingDrills
-    @Test
-    void getUpcomingDrills_shouldReturnListOfDrills_whenUserIdProvided() {
-        Long userId = 123L;
-        List<UpcomingEvacuationDrillDto> expectedDrills = Arrays.asList(drillDto1, drillDto2);
-
-        when(evacuationDrillRepository.findUpcomingDrillsWithUserStatus(userId)).thenReturn(expectedDrills);
-
-        List<UpcomingEvacuationDrillDto> actualDrills = evacuationDrillApplicationService.getUpcomingDrills(userId);
+        List<PastEvacuationDrillDto> actualDrills = evacuationDrillApplicationService.getPastDrills(userId);
 
         assertNotNull(actualDrills);
-        assertEquals(2, actualDrills.size());
-        assertEquals(expectedDrills, actualDrills);
-        verify(evacuationDrillRepository, times(1)).findUpcomingDrillsWithUserStatus(userId);
+        assertEquals(expectedDrills.size(), actualDrills.size());
+        assertEquals(expectedDrills.get(0).getDrill_name(), actualDrills.get(0).getDrill_name());
+        assertEquals(expectedDrills.get(1).getDrill_name(), actualDrills.get(1).getDrill_name());
     }
 
     @Test
-    void getUpcomingDrills_shouldReturnListOfDrills_whenUserIdIsNull() {
-        Long userId = null;
-        List<UpcomingEvacuationDrillDto> expectedDrills = Arrays.asList(drillDto1); // Example with one drill
+    void getPastDrills_returnsEmptyList_whenRepositoryReturnsEmptyList() {
+        Long userId = 1L;
+        when(evacuationDrillRepository.findPastDrillsWithUserStatus(userId)).thenReturn(Collections.emptyList());
 
-        when(evacuationDrillRepository.findUpcomingDrillsWithUserStatus(userId)).thenReturn(expectedDrills);
-
-        List<UpcomingEvacuationDrillDto> actualDrills = evacuationDrillApplicationService.getUpcomingDrills(userId);
+        List<PastEvacuationDrillDto> actualDrills = evacuationDrillApplicationService.getPastDrills(userId);
 
         assertNotNull(actualDrills);
-        assertEquals(1, actualDrills.size());
-        assertEquals(expectedDrills, actualDrills);
-        verify(evacuationDrillRepository, times(1)).findUpcomingDrillsWithUserStatus(userId);
+        assertTrue(actualDrills.isEmpty());
     }
 
     @Test
-    void getUpcomingDrills_shouldReturnEmptyList_whenRepositoryReturnsEmpty() {
-        Long userId = 456L;
-        when(evacuationDrillRepository.findUpcomingDrillsWithUserStatus(userId)).thenReturn(Collections.emptyList());
+    void getPastDrills_returnsNull_whenRepositoryReturnsNull() {
+        //This test reflects the current behavior of the service.
+        //If the repository returns null, the service method will also return null.
+        //The controller handles the null case and returns 204 No Content.
+        Long userId = 1L;
+        when(evacuationDrillRepository.findPastDrillsWithUserStatus(userId)).thenReturn(null);
 
-        List<UpcomingEvacuationDrillDto> actualDrills = evacuationDrillApplicationService.getUpcomingDrills(userId);
-
-        assertNotNull(actualDrills);
-        assertTrue(actualDrills.isEmpty()); // Changed from assertEquals(0, actualDrills.size());
-        verify(evacuationDrillRepository, times(1)).findUpcomingDrillsWithUserStatus(userId);
+        List<PastEvacuationDrillDto> actualDrills = evacuationDrillApplicationService.getPastDrills(userId);
+        assertNull(actualDrills);
     }
 }

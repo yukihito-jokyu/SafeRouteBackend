@@ -10,4 +10,5 @@ import java.util.List;
 public interface EvacuationDrillMapper {
     EvacuationDrillEntity findLatestScheduledDrill();
     List<EvacuationDrillEntity> findUpcomingDrills(@Param("currentTimestamp") LocalDateTime currentTimestamp, @Param("userId") Long userId);
+    List<EvacuationDrillEntity> findPastDrills(@Param("currentTimestamp") LocalDateTime currentTimestamp, @Param("userId") Long userId);
 }
