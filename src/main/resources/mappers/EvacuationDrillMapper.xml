@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.osc.saferoute.infrastructure.mybatis.mapper.EvacuationDrillMapper">
+
+    <resultMap id="EvacuationDrillEntityResultMap" type="com.osc.saferoute.infrastructure.mybatis.entity.EvacuationDrillEntity">
+        <id property="drill_id" column="drill_id"/>
+        <result property="drill_name" column="drill_name"/>
+        <result property="start_datetime" column="start_datetime"/>
+        <result property="drill_type" column="drill_type"/>
+    </resultMap>
+
+    <select id="findLatestScheduledDrill" resultMap="EvacuationDrillEntityResultMap">
+        SELECT drill_id, drill_name, start_datetime, drill_type
+        FROM evacuation_drills
+        WHERE status = 'scheduled'
+        ORDER BY start_datetime DESC, drill_id DESC
+        LIMIT 1
+    </select>
+
+</mapper>
