@@ -1,9 +1,13 @@
 package com.osc.saferoute.controller;
 
 import com.osc.saferoute.application.service.UserApplicationService;
+import com.osc.saferoute.domain.model.EvacuationRoute; // Added import
 import com.osc.saferoute.domain.model.UserId;
 import com.osc.saferoute.domain.model.UserName;
+import org.springframework.http.ResponseEntity; // Added import
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List; // Added import
 
 @RestController
 @RequestMapping("/users")
@@ -27,5 +31,15 @@ public class UserController {
     @GetMapping("/get/point/{id}")
     public Integer getUserPoints(@PathVariable String id) {
         return userApplicationService.getCurrentPoints(new com.osc.saferoute.domain.model.UserId(id));
+    }
+
+    // New endpoint to get primary evacuation routes for a user
+    @GetMapping("/{userId}/get/evacuation-routes")
+    public ResponseEntity<List<EvacuationRoute>> getPrimaryEvacuationRoutes(@PathVariable String userId) {
+        List<EvacuationRoute> routes = userApplicationService.getPrimaryEvacuationRoutes(userId);
+        if (routes.isEmpty()) {
+            return ResponseEntity.noContent().build(); // Or ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(routes);
     }
 }
