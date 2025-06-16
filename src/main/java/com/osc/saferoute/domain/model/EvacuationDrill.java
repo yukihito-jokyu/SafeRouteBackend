@@ -3,7 +3,7 @@ package com.osc.saferoute.domain.model;
 import java.time.LocalDateTime;
 
 public class EvacuationDrill {
-    private final Long drillId;
+    private final Integer drillId;
     private final String drillName;
     private final LocalDateTime startDatetime;
     private final String drillType;
@@ -14,7 +14,7 @@ public class EvacuationDrill {
     private final String itemsToBring;
     private final String notes;
 
-    public EvacuationDrill(Long drillId, String drillName, LocalDateTime startDatetime, String drillType,
+    public EvacuationDrill(Integer drillId, String drillName, LocalDateTime startDatetime, String drillType,
                            String meetingPlace, String drillDetails, String targetAudience,
                            String mapInfoUrl, String itemsToBring, String notes) {
         this.drillId = drillId;
@@ -30,7 +30,7 @@ public class EvacuationDrill {
     }
 
     // Getters
-    public Long getDrillId() {
+    public Integer getDrillId() {
         return drillId;
     }
 

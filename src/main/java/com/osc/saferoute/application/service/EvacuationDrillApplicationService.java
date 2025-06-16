@@ -2,11 +2,8 @@ package com.osc.saferoute.application.service;
 
 import com.osc.saferoute.domain.model.EvacuationDrill;
 import com.osc.saferoute.domain.repository.EvacuationDrillRepository;
-package com.osc.saferoute.application.service;
 
 import com.osc.saferoute.controller.dto.PastEvacuationDrillDto;
-import com.osc.saferoute.domain.model.EvacuationDrill;
-import com.osc.saferoute.domain.repository.EvacuationDrillRepository;
 import com.osc.saferoute.controller.dto.UpcomingEvacuationDrillDto;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +23,12 @@ public class EvacuationDrillApplicationService {
         return evacuationDrillRepository.findLatestScheduledDrill();
     }
 
-    public List<UpcomingEvacuationDrillDto> getUpcomingDrills(Long userId) {
+    public List<UpcomingEvacuationDrillDto> getUpcomingDrills(String userId) {
         // The repository implementation now handles passing LocalDateTime.now() to the mapper.
         return evacuationDrillRepository.findUpcomingDrillsWithUserStatus(userId);
     }
 
-    public List<PastEvacuationDrillDto> getPastDrills(Long userId) {
+    public List<PastEvacuationDrillDto> getPastDrills(String userId) {
         return evacuationDrillRepository.findPastDrillsWithUserStatus(userId);
     }
 }

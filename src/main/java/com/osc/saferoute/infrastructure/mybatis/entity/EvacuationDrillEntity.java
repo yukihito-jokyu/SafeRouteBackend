@@ -3,7 +3,7 @@ package com.osc.saferoute.infrastructure.mybatis.entity;
 import java.time.LocalDateTime;
 
 public class EvacuationDrillEntity {
-    private Long drill_id; // Matched with column name
+    private Integer drill_id; // Matched with column name
     private String drill_name; // Matched with column name
     private LocalDateTime start_datetime; // Matched with column name
     private String drill_type; // Matched with column name
@@ -16,11 +16,11 @@ public class EvacuationDrillEntity {
     private String userRegistrationStatus; // Populated by query
 
     // Getters and Setters
-    public Long getDrill_id() {
+    public Integer getDrill_id() {
         return drill_id;
     }
 
-    public void setDrill_id(Long drill_id) {
+    public void setDrill_id(Integer drill_id) {
         this.drill_id = drill_id;
     }
 

@@ -3,7 +3,7 @@ package com.osc.saferoute.controller.dto;
 import java.time.LocalDateTime;
 
 public class UpcomingEvacuationDrillDto {
-    private final Long drillId;
+    private final Integer drillId;
     private final String drillName;
     private final LocalDateTime startDatetime;
     private final String drillType;
@@ -15,7 +15,7 @@ public class UpcomingEvacuationDrillDto {
     private final String notes;
     private final String userRegistrationStatus;
 
-    public UpcomingEvacuationDrillDto(Long drillId, String drillName, LocalDateTime startDatetime, String drillType,
+    public UpcomingEvacuationDrillDto(Integer drillId, String drillName, LocalDateTime startDatetime, String drillType,
                                       String meetingPlace, String drillDetails, String targetAudience,
                                       String mapInfoUrl, String itemsToBring, String notes,
                                       String userRegistrationStatus) {
@@ -32,7 +32,7 @@ public class UpcomingEvacuationDrillDto {
         this.userRegistrationStatus = userRegistrationStatus;
     }
 
-    public Long getDrillId() {
+    public Integer getDrillId() {
         return drillId;
     }
 

@@ -10,20 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-package com.osc.saferoute.infrastructure.mybatis.repository;
 
 import com.osc.saferoute.controller.dto.PastEvacuationDrillDto;
-import com.osc.saferoute.domain.model.EvacuationDrill;
-import com.osc.saferoute.domain.repository.EvacuationDrillRepository;
-import com.osc.saferoute.infrastructure.mybatis.entity.EvacuationDrillEntity;
-import com.osc.saferoute.infrastructure.mybatis.mapper.EvacuationDrillMapper;
-import com.osc.saferoute.controller.dto.UpcomingEvacuationDrillDto;
-import org.springframework.stereotype.Repository;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository // Or @Component
@@ -66,7 +55,7 @@ public class EvacuationDrillRepositoryImpl implements EvacuationDrillRepository 
     }
 
     @Override
-    public List<UpcomingEvacuationDrillDto> findUpcomingDrillsWithUserStatus(Long userId) {
+    public List<UpcomingEvacuationDrillDto> findUpcomingDrillsWithUserStatus(String userId) {
         List<EvacuationDrillEntity> entities = evacuationDrillMapper.findUpcomingDrills(LocalDateTime.now(), userId);
         if (entities == null) {
             return new ArrayList<>(); // Or Collections.emptyList()
@@ -89,7 +78,7 @@ public class EvacuationDrillRepositoryImpl implements EvacuationDrillRepository 
     }
 
     @Override
-    public List<PastEvacuationDrillDto> findPastDrillsWithUserStatus(Long userId) {
+    public List<PastEvacuationDrillDto> findPastDrillsWithUserStatus(String userId) {
         List<EvacuationDrillEntity> entities = evacuationDrillMapper.findPastDrills(LocalDateTime.now(), userId);
         if (entities == null) {
             return new ArrayList<>();

@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface EvacuationDrillRepository {
     Optional<EvacuationDrill> findLatestScheduledDrill();
-    List<UpcomingEvacuationDrillDto> findUpcomingDrillsWithUserStatus(Long userId);
-    List<PastEvacuationDrillDto> findPastDrillsWithUserStatus(Long userId);
+    List<UpcomingEvacuationDrillDto> findUpcomingDrillsWithUserStatus(String userId);
+    List<PastEvacuationDrillDto> findPastDrillsWithUserStatus(String userId);
 }
